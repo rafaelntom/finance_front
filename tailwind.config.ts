@@ -30,6 +30,12 @@ const config: Config = {
         slideDown: "slideDown 0.3s ease-in-out",
         slideUp: "slideUp 0.3s ease-in-out",
       },
+      colors: {
+        zinigreen: "#ABE188",
+        ziniblue: "#5386EA",
+        zinimagenta: "#922D50",
+        zinibrown: "#F49E4C",
+      },
     },
   },
   plugins: [],
