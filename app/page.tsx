@@ -1,38 +1,58 @@
 import Link from "next/link";
+import { Montserrat } from "next/font/google";
+
+const montserrat = Montserrat({ subsets: ["latin"], display: "swap" });
 
 export default function Home() {
   return (
-    <div className="flex items-center h-screen">
-      <div className="container mx-auto p-8 text-center flex flex-col gap-4">
-        <div className="top-container">
-          <p>Welcome to:</p>
-          <h1 className="text-4xl font-bold mb-4 text-white">
-            Zini <span className="text-zinigreen">Finances</span>
+    <div className="flex flex-col justify-center  h-screen bg-gradient-to-r from-slate-700 to-slate-900 px-2">
+      <div className="login-container w-full bg-slate-950 p-4 rounded-md max-w-[500px] mx-auto shadow-slate-800 shadow-md">
+        <div className="text-container flex flex-col justify-center ">
+          <h1 className={`${montserrat.className} text-center text-3xl mb-2`}>
+            <span className="italic text-zinimagenta font-bold tracking-wide">
+              Zini
+            </span>{" "}
+            <span className="  font-bold">Finances</span>
           </h1>
+          <h2
+            className={`text-center font-medium uppercase text-3xl tracking-widest`}
+          >
+            Sign in
+          </h2>
         </div>
-        <div className="middle-container">
-          <p className="text-lg mb-8">
-            Your tool for{" "}
-            <span className="text-zinibrown font-bold">managing</span> and{" "}
-            <span className="text-zinibrown font-bold">tracking</span> your
-            finances effortlessly.
-          </p>
-        </div>
-        <div className="flex justify-center flex-col gap-10">
-          <div className="register-container flex flex-col gap-4">
-            <span>Don't have an account? Register right now!</span>
-            <Link href="/register">
-              <span className="bg-green-500 text-white font-semibold py-2 px-4 rounded">
-                Register
-              </span>
-            </Link>
+        <form className="flex flex-col gap-2">
+          <div className="flex flex-col my-5">
+            <label htmlFor="login-input">E-mail</label>
+            <input
+              name="login-input"
+              type="text"
+              id="login-input"
+              placeholder="Insert your e-mail"
+              className="p-2 rounded-sm bg-slate-300 text-black placeholder:slate-100 border-2 border-slate-900 outline-none focus:border-ziniblue focus:border-2"
+            />
           </div>
-          <div className="login-container flex flex-col gap-4">
-            <span>Already registered? Log in below!</span>
-            <Link href="/login">
-              <span className="bg-ziniblue text-white font-semibold py-2 px-4 rounded ">
-                Log In
-              </span>
+          <div className="flex flex-col">
+            <label htmlFor="password-input">Password</label>
+            <input
+              name="password-input"
+              type="password"
+              id="password-input"
+              placeholder="Insert your password"
+              className="p-2 rounded-sm bg-slate-300 text-black placeholder:slate-100 border-2 border-slate-900 outline-none focus:border-ziniblue focus:border-2"
+            />
+          </div>
+        </form>
+        <div className="remember-recover flex justify-between py-4 items-center">
+          <div className="left flex justify-center">
+            <input type="checkbox" name="remeber-me" id="remeber-me" />
+            <label htmlFor="remeber-me" className="pl-2">
+              Remember me
+            </label>
+          </div>
+
+          <div className="right">
+            <Link href="#" className="underline font-normal text-zinimagenta">
+              Forgot your password?
             </Link>
           </div>
         </div>
