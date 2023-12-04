@@ -16,9 +16,10 @@ export default function Home() {
     formState: { errors },
   } = useForm<FormLoginData>({ resolver: zodResolver(LoginSchema) });
 
-  const { login, logout } = useContext(AuthContext)!;
+  const { login } = useContext(AuthContext)!;
 
-  const handleFormSubmit = (formData: FormLoginData) => {
+  const handleFormSubmit = async (formData: FormLoginData) => {
+    login(formData);
     console.log(formData);
   };
 
@@ -30,8 +31,9 @@ export default function Home() {
             <span className="italic text-zinimagenta font-bold tracking-wide">
               Zini
             </span>{" "}
-            <span className="  font-bold">Finances</span>
+            <span className="font-bold">Finances</span>
           </h1>
+
           <h2
             className={`text-center font-medium uppercase text-3xl tracking-widest`}
           >
@@ -72,7 +74,8 @@ export default function Home() {
             Login
           </button>
         </form>
-        <div className="remember-recover flex justify-between py-6 items-center">
+        {/* Remember me settings, EDIT THIS LATER ON THE PROJECT */}
+        <div className="remember-recover justify-between py-6 items-center hidden">
           <div className="left flex justify-center">
             <input type="checkbox" name="remeber-me" id="remeber-me" />
             <label htmlFor="remeber-me" className="pl-2">
@@ -86,7 +89,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
-        <div className="flex justify-center ">
+        <div className="flex justify-center pt-4 pb-3">
           <span>
             Don't have an account?{" "}
             <Link href="/register" className="text-zinimagenta underline">

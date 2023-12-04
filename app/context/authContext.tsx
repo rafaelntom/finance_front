@@ -1,6 +1,8 @@
-// authContext.ts
-import { createContext, useContext, ReactNode } from "react";
+import { ReactNode, createContext } from "react";
+import { toast } from "react-toastify";
 import { FormLoginData } from "../schemas/login.schema";
+import axiosApi from "../service/api";
+import { setCookie } from "nookies";
 
 interface AuthContextProps {
   login: (data: FormLoginData) => void;
@@ -10,8 +12,24 @@ interface AuthContextProps {
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const login = (data: FormLoginData) => {
-    console.log("Logging in...", data);
+  const login = async (data: FormLoginData) => {
+    axiosApi
+      .post("/users/signin", data)
+      .then((res) => {
+        setCookie(null, "zini_finances", res.data.access_token, {
+          maxAge: 60 * 30,
+          path: "/",
+        });
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+        if (err.response.data.message) {
+          return toast.error(`${err.response.data.message}`);
+        }
+
+        return toast.error("Something went wrong, try again later");
+      });
   };
 
   const logout = () => {
