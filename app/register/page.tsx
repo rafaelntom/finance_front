@@ -2,13 +2,19 @@
 import React from "react";
 import PageHeader from "../components/header";
 import { useForm } from "react-hook-form";
+import { RegisterPayload, RegisterSchema } from "../schemas/register.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function Register() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm<RegisterPayload>({ resolver: zodResolver(RegisterSchema) });
+
+  const handleRegisterForm = (data: RegisterPayload) => {
+    console.log(data);
+  };
   return (
     <>
       <div className="h-screen bg-gradient-to-b from-slate-700 to-slate-900">
@@ -19,8 +25,11 @@ export default function Register() {
         </p>
 
         <div className="form-container w-full bg-slate-950 p-4 rounded-md max-w-[500px] mx-auto shadow-slate-800 shadow-md">
-          <form className="flex flex-col gap-2">
-            <div className="flex flex-col my-5">
+          <form
+            className="flex flex-col gap-4"
+            onSubmit={handleSubmit(handleRegisterForm)}
+          >
+            <div className="flex flex-col">
               <label htmlFor="">Name</label>
               <input
                 {...register("name")}
@@ -31,7 +40,7 @@ export default function Register() {
                 className="p-2 rounded-sm bg-slate-300 text-black placeholder:slate-100 border-2 border-slate-900 outline-none focus:border-ziniblue focus:border-2"
               />
               <span className="text-sm text-red-400 py-1">
-                {`error will go here`}
+                {errors.name?.message}
               </span>
             </div>
             <div className="flex flex-col">
@@ -45,7 +54,7 @@ export default function Register() {
                 className="p-2 rounded-sm bg-slate-300 text-black placeholder:slate-100 border-2 border-slate-900 outline-none focus:border-ziniblue focus:border-2"
               />
               <span className="text-sm text-red-400 py-1">
-                {`error will go here`}
+                {errors.email?.message}
               </span>
             </div>
             <div className="flex flex-col">
@@ -59,23 +68,26 @@ export default function Register() {
                 className="p-2 rounded-sm bg-slate-300 text-black placeholder:slate-100 border-2 border-slate-900 outline-none focus:border-ziniblue focus:border-2"
               />
               <span className="text-sm text-red-400 py-1">
-                {`error will go here`}
+                {errors.password?.message}
               </span>
             </div>
             <div className="flex flex-col">
               <label htmlFor="">Confirm your password</label>
               <input
                 {...register("confirmPassword")}
-                type="confirmPassword"
+                type="password"
                 name="confirmPassword"
                 id="confirmPassword"
                 placeholder="Confirm your password"
                 className="p-2 rounded-sm bg-slate-300 text-black placeholder:slate-100 border-2 border-slate-900 outline-none focus:border-ziniblue focus:border-2"
               />
               <span className="text-sm text-red-400 py-1">
-                {`error will go here`}
+                {errors.confirmPassword?.message}
               </span>
             </div>
+            <button className="bg-ziniblue p-2 rounded-sm mt-2 hover:bg-[#2f58aa]">
+              Register
+            </button>
           </form>
         </div>
       </div>
