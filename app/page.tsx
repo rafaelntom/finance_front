@@ -6,10 +6,13 @@ import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "./context/authContext";
 import { FormLoginData, LoginSchema } from "./schemas/login.schema";
+import { useRouter } from "next/navigation";
 
 const montserrat = Montserrat({ subsets: ["latin"], display: "swap" });
 
 export default function Home() {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -20,7 +23,7 @@ export default function Home() {
 
   const handleFormSubmit = async (formData: FormLoginData) => {
     login(formData);
-    console.log(formData);
+    router.push("/dashboard");
   };
 
   return (
@@ -28,7 +31,7 @@ export default function Home() {
       <div className="login-container w-full bg-slate-950 p-4 rounded-md max-w-[500px] mx-auto shadow-slate-800 shadow-md">
         <div className="text-container flex flex-col justify-center ">
           <h1 className={`${montserrat.className} text-center text-3xl mb-2`}>
-            <span className="italic text-zinimagenta font-bold tracking-wide">
+            <span className=" text-zinigreen font-bold tracking-wide">
               Zini
             </span>{" "}
             <span className="font-bold">Finances</span>
