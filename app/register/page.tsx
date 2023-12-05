@@ -1,9 +1,11 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import PageHeader from "../components/header";
 import { useForm } from "react-hook-form";
 import { RegisterPayload, RegisterSchema } from "../schemas/register.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { AuthContext } from "../context/authContext";
 
 export default function Register() {
   const {
@@ -12,21 +14,28 @@ export default function Register() {
     formState: { errors },
   } = useForm<RegisterPayload>({ resolver: zodResolver(RegisterSchema) });
 
+  const { registerUser } = useContext(AuthContext)!;
+
   const handleRegisterForm = (data: RegisterPayload) => {
+    registerUser(data);
     console.log(data);
   };
   return (
     <>
       <div className="h-screen bg-gradient-to-b from-slate-700 to-slate-900">
         <PageHeader />
-        <p className="p-4 mt-8 text-center text-xl max-w-[1000px] mx-auto">
-          You're just a few steps from starting to keep track and managing your
-          finances, create an account below and enjoy our features!
+        <p className="p-4 mt-8 text-center text-xl max-w-[1000px] mx-auto font-extralight pb-5">
+          You're just a few steps away from starting to keep track of and
+          managing your finances. Create an account below and enjoy our
+          features!
         </p>
 
         <div className="form-container w-full bg-slate-950 p-4 rounded-md max-w-[500px] mx-auto shadow-slate-800 shadow-md">
+          <Link href="/" className="text-zinimagenta ">
+            ← Home
+          </Link>
           <form
-            className="flex flex-col gap-4"
+            className="flex flex-col gap-4 pt-5"
             onSubmit={handleSubmit(handleRegisterForm)}
           >
             <div className="flex flex-col">
