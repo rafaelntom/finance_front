@@ -6,13 +6,10 @@ import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "./context/authContext";
 import { FormLoginData, LoginSchema } from "./schemas/login.schema";
-import { useRouter } from "next/navigation";
 
 const montserrat = Montserrat({ subsets: ["latin"], display: "swap" });
 
 export default function Home() {
-  const router = useRouter();
-
   const {
     register,
     handleSubmit,
@@ -23,7 +20,6 @@ export default function Home() {
 
   const handleFormSubmit = async (formData: FormLoginData) => {
     login(formData);
-    router.push("/dashboard");
   };
 
   return (

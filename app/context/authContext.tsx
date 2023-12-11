@@ -4,6 +4,7 @@ import { FormLoginData } from "../schemas/login.schema";
 import axiosApi from "../service/api";
 import { setCookie } from "nookies";
 import { RegisterPayload } from "../schemas/register.schema";
+import { useRouter } from "next/navigation";
 
 interface AuthContextProps {
   login: (data: FormLoginData) => void;
@@ -14,6 +15,8 @@ interface AuthContextProps {
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const router = useRouter();
+
   const login = async (data: FormLoginData) => {
     axiosApi
       .post("/users/signin", data)
@@ -22,10 +25,15 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
           maxAge: 60 * 30,
           path: "/",
         });
-        console.log(res.data);
+      })
+      .then(() => {
+        router.push("/dashboard");
       })
       .catch((err) => {
         console.error(err);
+        if (err.message == "Network Error") {
+          return toast.error("We're having problems connecting to the server");
+        }
         if (err.response.data.message) {
           return toast.error(`${err.response.data.message}`);
         }
