@@ -1,14 +1,12 @@
 "use client";
-import React from "react";
-import PageHeader from "../components/header";
 import Link from "next/link";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useAuth } from "../hooks/useAuth";
 
 export default function Dashboard() {
   const { token } = useAuth();
-
   console.log(token);
+
   return (
     <>
       <div className="dashboard-header header-container flex justify-between items-center bg-slate-900 w-screen p-4 shadow-sm">
