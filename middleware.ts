@@ -11,7 +11,6 @@ export function middleware(request: NextRequest) {
   }
 
   if (privateRoutes.includes(request.nextUrl.pathname) && !cookies?.value) {
-    console.log("this is a private route!");
     const absoluteURL = new URL("/", request.nextUrl.origin);
     return NextResponse.redirect(absoluteURL.toString());
   }

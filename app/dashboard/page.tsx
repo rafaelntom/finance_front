@@ -1,8 +1,12 @@
 "use client";
 import Link from "next/link";
+import { useContext } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { AuthContext } from "../context/authContext";
 
 export default function Dashboard() {
+  const { logout } = useContext(AuthContext)!;
+
   return (
     <>
       <div className="dashboard-header header-container flex justify-between items-center bg-slate-900 w-screen p-4 shadow-sm">
@@ -15,7 +19,9 @@ export default function Dashboard() {
         <div className="right-container gap-4 hidden smm:flex">
           <ul className="gap-4 smm:flex">
             <li>
-              <Link href="/">Logout</Link>
+              <Link href="/" onClick={logout}>
+                Logout
+              </Link>
             </li>
           </ul>
         </div>

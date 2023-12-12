@@ -1,8 +1,8 @@
-import { ReactNode, createContext } from "react";
+import { ReactNode, createContext, useState } from "react";
 import { toast } from "react-toastify";
 import { FormLoginData } from "../schemas/login.schema";
 import axiosApi from "../service/api";
-import { setCookie } from "nookies";
+import { setCookie, destroyCookie } from "nookies";
 import { RegisterPayload } from "../schemas/register.schema";
 import { useRouter } from "next/navigation";
 
@@ -10,14 +10,17 @@ interface AuthContextProps {
   login: (data: FormLoginData) => void;
   logout: () => void;
   registerUser: (data: RegisterPayload) => void;
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const login = async (data: FormLoginData) => {
+    setLoading(true);
     axiosApi
       .post("/users/signin", data)
       .then((res) => {
@@ -39,6 +42,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
 
         return toast.error("Something went wrong, try again later");
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -59,11 +65,12 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = () => {
-    console.log("this is the logout function");
+    destroyCookie(null, "zini_finances", { path: "/" });
+    router.replace("/");
   };
 
   return (
-    <AuthContext.Provider value={{ login, logout, registerUser }}>
+    <AuthContext.Provider value={{ login, logout, registerUser, loading }}>
       {children}
     </AuthContext.Provider>
   );

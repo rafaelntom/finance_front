@@ -16,7 +16,8 @@ export default function Home() {
     formState: { errors },
   } = useForm<FormLoginData>({ resolver: zodResolver(LoginSchema) });
 
-  const { login } = useContext(AuthContext)!;
+  const { login, loading } = useContext(AuthContext)!;
+  console.log(loading);
 
   const handleFormSubmit = async (formData: FormLoginData) => {
     login(formData);
@@ -69,8 +70,13 @@ export default function Home() {
               autoComplete="current-password"
             />
           </div>
-          <button className="bg-ziniblue p-2 rounded-sm mt-2 hover:bg-[#2f58aa]">
-            Login
+          <button
+            className={`bg-ziniblue p-2 rounded-sm mt-2 hover:bg-[#2f58aa] ${
+              loading ? "cursor-not-allowed opacity-50" : ""
+            }`}
+            disabled={loading}
+          >
+            {loading ? "Loading..." : "Login"}
           </button>
         </form>
         {/* Remember me settings, EDIT THIS LATER ON THE PROJECT */}
