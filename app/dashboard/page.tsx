@@ -2,10 +2,10 @@
 import Link from "next/link";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useAuth } from "../hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
   const { token } = useAuth();
-  console.log(token);
 
   return (
     <>

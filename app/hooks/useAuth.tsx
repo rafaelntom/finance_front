@@ -12,24 +12,26 @@ export const useAuth = () => {
 
   useEffect(() => {
     const cookies = nookies.get();
-    let authToken: string | null = cookies["zini_finances"];
+    const authToken: string | null = cookies["zini_finances"];
 
     const verifyToken = async () => {
       try {
         if (authToken) {
           axiosApi.defaults.headers.common.authorization = `Bearer ${authToken}`;
         } else {
+          nookies.destroy(null, "zini_finances");
           router.replace("/");
         }
       } catch (error) {
         console.error("Error verifying token:", error);
         nookies.destroy(null, "zini_finances");
         router.replace("/");
+      } finally {
+        setToken(authToken || null);
       }
     };
 
     verifyToken();
-    setToken(authToken || null);
   }, []);
 
   return { token };
