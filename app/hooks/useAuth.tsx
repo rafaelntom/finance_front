@@ -1,11 +1,11 @@
 "use client";
 import "dotenv/config";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import { useRouter } from "next/navigation";
 import nookies from "nookies";
 import { useEffect, useState } from "react";
 import axiosApi from "../service/api";
-import { useRouter } from "next/navigation";
 
+//! This hook is currently not being used!
 export const useAuth = () => {
   const router = useRouter();
   const [token, setToken] = useState<string | null>(null);
@@ -20,7 +20,6 @@ export const useAuth = () => {
           axiosApi.defaults.headers.common.authorization = `Bearer ${authToken}`;
         } else {
           nookies.destroy(null, "zini_finances");
-          router.replace("/");
         }
       } catch (error) {
         console.error("Error verifying token:", error);

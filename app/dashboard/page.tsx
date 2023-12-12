@@ -1,12 +1,8 @@
 "use client";
 import Link from "next/link";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { useAuth } from "../hooks/useAuth";
-import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
-  const { token } = useAuth();
-
   return (
     <>
       <div className="dashboard-header header-container flex justify-between items-center bg-slate-900 w-screen p-4 shadow-sm">
