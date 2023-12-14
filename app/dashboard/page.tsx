@@ -6,6 +6,7 @@ import { useContext, useEffect, useState, useTransition } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { AuthContext } from "../context/authContext";
 import { fetchUserInfo, fetchUserTransactions } from "../functions/fetch-user";
+import { TransactionCard } from "../components/transactionCard";
 
 interface UserToken {
   userId: number;
@@ -17,7 +18,7 @@ interface UserToken {
 export interface UserTransactions {
   id: number;
   description: string;
-  ammount: number;
+  amount: number;
   type: "INCOME" | "OUTCOME";
   userId: number;
 }
@@ -76,6 +77,22 @@ export default function Dashboard() {
       <DashBoardHeader />
       <div className="flex flex-col h-screen bg-gradient-to-r from-slate-700 to-slate-900 px-2 pt-3">
         <span>Welcome {userName}!</span>
+        {transactions.length == 0 ? (
+          <div className="flex items-center my-3 text-lg font-semibold text-zinibrown w-full justify-center">
+            <span className="text-center">Loading transactions...</span>
+          </div>
+        ) : (
+          <ul className="flex flex-col gap-3 my-4">
+            {transactions.map((transaction) => {
+              return (
+                <TransactionCard
+                  transaction={transaction}
+                  key={transaction.id}
+                />
+              );
+            })}
+          </ul>
+        )}
       </div>
     </>
   );
