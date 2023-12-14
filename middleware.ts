@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import axiosApi from "./app/service/api";
+import { destroyCookie } from "nookies";
 
 const privateRoutes = ["/dashboard"];
 

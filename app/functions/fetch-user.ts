@@ -11,3 +11,13 @@ export async function fetchUserInfo(userId: number, userToken: string) {
     return null;
   }
 }
+
+export async function fetchUserTransactions(userToken: string) {
+  try {
+    const response = await axiosApi.get("/transactions");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}

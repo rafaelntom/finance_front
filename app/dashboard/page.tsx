@@ -2,16 +2,24 @@
 import { decode } from "jsonwebtoken";
 import Link from "next/link";
 import { parseCookies } from "nookies";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useTransition } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { AuthContext } from "../context/authContext";
-import { fetchUserInfo } from "../functions/fetch-user";
+import { fetchUserInfo, fetchUserTransactions } from "../functions/fetch-user";
 
 interface UserToken {
   userId: number;
   iat: number;
   exp: number;
   sub: string;
+}
+
+export interface UserTransactions {
+  id: number;
+  description: string;
+  ammount: number;
+  type: "INCOME" | "OUTCOME";
+  userId: number;
 }
 
 function DashBoardHeader() {
@@ -40,6 +48,7 @@ function DashBoardHeader() {
 
 export default function Dashboard() {
   const [userName, setUserName] = useState("");
+  const [transactions, setTransactions] = useState<UserTransactions[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,8 +60,14 @@ export default function Dashboard() {
         const userId = decodedToken!.userId;
         const profileInfo = await fetchUserInfo(userId, token);
         setUserName(profileInfo.name);
+
+        const userTransactions: UserTransactions[] =
+          await fetchUserTransactions(token);
+        setTransactions(userTransactions);
+        console.log(userTransactions);
       }
     };
+
     fetchData();
   }, []);
 
