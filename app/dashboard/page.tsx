@@ -53,12 +53,8 @@ export default function Dashboard() {
   const [transactions, setTransactions] = useState<UserTransactions[]>([]);
   const [isModalOpen, setModalOpen] = useState(false);
 
-  const openModal = () => {
-    setModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
+  const changeModalState = () => {
+    setModalOpen(!isModalOpen);
   };
 
   useEffect(() => {
@@ -85,10 +81,8 @@ export default function Dashboard() {
   return (
     <>
       <DashBoardHeader />
-      <button className="bg-teal-950 w-full rounded-sm" onClick={openModal}>
-        teste
-      </button>
-      <Modal isOpen={isModalOpen} onClose={closeModal} />
+
+      <Modal isOpen={isModalOpen} />
       <div className="flex flex-col h-screen bg-gradient-to-r from-slate-700 to-slate-900 px-2 pt-3">
         <span>Welcome {userName}!</span>
         <div className="create-transaction-container">{/* TO BE ADDED */}</div>
@@ -103,6 +97,7 @@ export default function Dashboard() {
                 <TransactionCard
                   transaction={transaction}
                   key={transaction.id}
+                  openModal={changeModalState}
                 />
               );
             })}

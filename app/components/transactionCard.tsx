@@ -5,8 +5,10 @@ import { MdModeEditOutline } from "react-icons/md";
 
 export const TransactionCard = ({
   transaction,
+  openModal,
 }: {
   transaction: UserTransactions;
+  openModal: () => void;
 }) => {
   return (
     <li className="flex flex-col gap-2 bg-slate-950 p-2 rounded-md">
@@ -18,6 +20,7 @@ export const TransactionCard = ({
           <FaTrashAlt
             size={20}
             className="text-slate-300 hover:cursor-pointer hover:scale-105 transition-all"
+            onClick={openModal}
           />
           <MdModeEditOutline
             size={20}

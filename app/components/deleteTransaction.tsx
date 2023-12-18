@@ -2,10 +2,9 @@ import React, { ReactNode } from "react";
 
 interface ModalProps {
   isOpen: boolean;
-  onClose: () => void;
 }
 
-export const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+export const Modal: React.FC<ModalProps> = ({ isOpen }) => {
   if (!isOpen) {
     return null;
   }
