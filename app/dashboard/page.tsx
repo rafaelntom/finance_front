@@ -9,7 +9,7 @@ import { fetchUserInfo, fetchUserTransactions } from "../functions/fetch-user";
 import { TransactionCard } from "../components/transactionCard";
 import Modal from "../components/deleteTransaction";
 
-interface UserToken {
+export interface UserToken {
   userId: number;
   iat: number;
   exp: number;
@@ -52,9 +52,16 @@ export default function Dashboard() {
   const [userName, setUserName] = useState("");
   const [transactions, setTransactions] = useState<UserTransactions[]>([]);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedTransactionId, setSelectedTransactionId] = useState<
+    number | null
+  >(null);
 
   const changeModalState = () => {
     setModalOpen(!isModalOpen);
+  };
+
+  const closeModalFunction = () => {
+    setModalOpen(false);
   };
 
   useEffect(() => {
@@ -82,7 +89,11 @@ export default function Dashboard() {
     <>
       <DashBoardHeader />
 
-      <Modal isOpen={isModalOpen} />
+      <Modal
+        isOpen={isModalOpen}
+        closeModal={closeModalFunction}
+        transactionId={selectedTransactionId}
+      />
       <div className="flex flex-col h-screen bg-gradient-to-r from-slate-700 to-slate-900 px-2 pt-3">
         <span>Welcome {userName}!</span>
         <div className="create-transaction-container">{/* TO BE ADDED */}</div>
@@ -97,7 +108,10 @@ export default function Dashboard() {
                 <TransactionCard
                   transaction={transaction}
                   key={transaction.id}
-                  openModal={changeModalState}
+                  openModal={() => {
+                    changeModalState();
+                    setSelectedTransactionId(Number(transaction.id));
+                  }}
                 />
               );
             })}
