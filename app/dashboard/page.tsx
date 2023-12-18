@@ -7,6 +7,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { AuthContext } from "../context/authContext";
 import { fetchUserInfo, fetchUserTransactions } from "../functions/fetch-user";
 import { TransactionCard } from "../components/transactionCard";
+import Modal from "../components/deleteTransaction";
 
 interface UserToken {
   userId: number;
@@ -50,6 +51,15 @@ function DashBoardHeader() {
 export default function Dashboard() {
   const [userName, setUserName] = useState("");
   const [transactions, setTransactions] = useState<UserTransactions[]>([]);
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -75,14 +85,19 @@ export default function Dashboard() {
   return (
     <>
       <DashBoardHeader />
+      <button className="bg-teal-950 w-full rounded-sm" onClick={openModal}>
+        teste
+      </button>
+      <Modal isOpen={isModalOpen} onClose={closeModal} />
       <div className="flex flex-col h-screen bg-gradient-to-r from-slate-700 to-slate-900 px-2 pt-3">
         <span>Welcome {userName}!</span>
+        <div className="create-transaction-container">{/* TO BE ADDED */}</div>
         {transactions.length == 0 ? (
           <div className="flex items-center my-3 text-lg font-semibold text-zinibrown w-full justify-center">
             <span className="text-center">Loading transactions...</span>
           </div>
         ) : (
-          <ul className="flex flex-col gap-3 my-4">
+          <ul className="flex flex-col gap-3 my-4 ">
             {transactions.map((transaction) => {
               return (
                 <TransactionCard
