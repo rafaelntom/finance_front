@@ -8,6 +8,7 @@ import { AuthContext } from "../context/authContext";
 import { fetchUserInfo, fetchUserTransactions } from "../functions/fetch-user";
 import { TransactionCard } from "../components/transactionCard";
 import Modal from "../components/deleteTransaction";
+import { EditModal } from "../components/editTransaction";
 
 export interface UserToken {
   userId: number;
@@ -94,6 +95,7 @@ export default function Dashboard() {
         closeModal={closeModalFunction}
         transactionId={selectedTransactionId}
       />
+      <EditModal />
       <div className="flex flex-col h-screen bg-gradient-to-r from-slate-700 to-slate-900 px-2 pt-3">
         <span>Welcome {userName}!</span>
         <div className="create-transaction-container">{/* TO BE ADDED */}</div>
