@@ -6,8 +6,8 @@ export async function deleteTransatcion(transactionId: number) {
   const token = cookies["zini_finances"];
   try {
     axiosApi.defaults.headers.common.Authorization = `Bearer ${token}`;
-    const response = await axiosApi.delete(`/transactions/${transactionId}`);
-    return response.data;
+    await axiosApi.delete(`/transactions/${transactionId}`);
+    return true;
   } catch (error) {
     console.log(error);
     return null;

@@ -1,17 +1,21 @@
-import React from "react";
-import { UserTransactions } from "../dashboard/page";
 import { FaTrashAlt } from "react-icons/fa";
 import { MdModeEditOutline } from "react-icons/md";
+import { UserTransactions } from "../dashboard/page";
 import { useModalSates } from "../utils/modalUtils";
+import { useEffect } from "react";
 
 export const TransactionCard = ({
   transaction,
-  openModal,
+  onModalOpen,
 }: {
   transaction: UserTransactions;
-  openModal: () => void;
+  onModalOpen: () => void;
 }) => {
-  const { openEditModal } = useModalSates();
+  const { openEditModal, openDeleteModal } = useModalSates();
+
+  useEffect(() => {
+    onModalOpen();
+  }, []);
 
   return (
     <li className="flex flex-col gap-2 bg-slate-950 p-2 rounded-md">
@@ -23,7 +27,7 @@ export const TransactionCard = ({
           <FaTrashAlt
             size={20}
             className="text-slate-300 hover:cursor-pointer hover:scale-105 transition-all"
-            onClick={openModal}
+            onClick={openDeleteModal}
           />
           <MdModeEditOutline
             size={20}

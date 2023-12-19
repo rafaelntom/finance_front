@@ -2,12 +2,13 @@ import React from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { deleteTransatcion } from "../functions/handle-transactions";
 import { useModalSates } from "../utils/modalUtils";
+import { revalidatePath } from "next/cache";
 
 interface ModalProps {
   transactionId?: number | null;
 }
 
-export const Modal: React.FC<ModalProps> = ({ transactionId }) => {
+export const DeleteModal: React.FC<ModalProps> = ({ transactionId }) => {
   const { deleteModalState, closeDeleteModal } = useModalSates();
 
   if (!deleteModalState) {
@@ -15,7 +16,12 @@ export const Modal: React.FC<ModalProps> = ({ transactionId }) => {
   }
 
   const handleDelete = async () => {
-    await deleteTransatcion(transactionId!);
+    const result = await deleteTransatcion(transactionId!);
+
+    if (result) {
+      closeDeleteModal();
+      revalidatePath("/");
+    }
   };
 
   console.log(transactionId);
@@ -57,4 +63,4 @@ export const Modal: React.FC<ModalProps> = ({ transactionId }) => {
   );
 };
 
-export default Modal;
+export default DeleteModal;

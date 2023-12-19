@@ -2,13 +2,13 @@
 import { decode } from "jsonwebtoken";
 import Link from "next/link";
 import { parseCookies } from "nookies";
-import { useContext, useEffect, useState, useTransition } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { DeleteModal } from "../components/deleteTransaction";
+import { EditModal } from "../components/editTransaction";
+import { TransactionCard } from "../components/transactionCard";
 import { AuthContext } from "../context/authContext";
 import { fetchUserInfo, fetchUserTransactions } from "../functions/fetch-user";
-import { TransactionCard } from "../components/transactionCard";
-import Modal from "../components/deleteTransaction";
-import { EditModal } from "../components/editTransaction";
 
 export interface UserToken {
   userId: number;
@@ -51,19 +51,11 @@ function DashBoardHeader() {
 
 export default function Dashboard() {
   const [userName, setUserName] = useState("");
+  const [loading, setLoading] = useState(true);
   const [transactions, setTransactions] = useState<UserTransactions[]>([]);
-  const [isModalOpen, setModalOpen] = useState(false);
   const [selectedTransactionId, setSelectedTransactionId] = useState<
     number | null
   >(null);
-
-  const changeModalState = () => {
-    setModalOpen(!isModalOpen);
-  };
-
-  const closeModalFunction = () => {
-    setModalOpen(false);
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,7 +70,14 @@ export default function Dashboard() {
 
         const userTransactions: UserTransactions[] =
           await fetchUserTransactions(token);
+
+        if (userTransactions.length < 1) {
+          setTransactions([]);
+          setLoading(false);
+        }
+
         setTransactions(userTransactions);
+        setLoading(false);
       }
     };
 
@@ -89,31 +88,36 @@ export default function Dashboard() {
     <>
       <DashBoardHeader />
 
-      <Modal transactionId={selectedTransactionId} />
+      <DeleteModal transactionId={selectedTransactionId} />
       <EditModal />
       <div className="flex flex-col h-screen bg-gradient-to-r from-slate-700 to-slate-900 px-2 pt-3">
         <span>Welcome {userName}!</span>
         <div className="create-transaction-container">{/* TO BE ADDED */}</div>
-        {transactions.length == 0 ? (
+        {loading ? (
           <div className="flex items-center my-3 text-lg font-semibold text-zinibrown w-full justify-center">
             <span className="text-center">Loading transactions...</span>
           </div>
-        ) : (
+        ) : null}
+        {transactions.length > 0 && !loading ? (
           <ul className="flex flex-col gap-3 my-4 ">
             {transactions.map((transaction) => {
               return (
                 <TransactionCard
                   transaction={transaction}
                   key={transaction.id}
-                  openModal={() => {
-                    changeModalState();
-                    setSelectedTransactionId(Number(transaction.id));
-                  }}
+                  onModalOpen={() => setSelectedTransactionId(transaction.id)}
                 />
               );
             })}
           </ul>
-        )}
+        ) : null}
+        {!loading && transactions.length == 0 ? (
+          <div className="w-full flex items-center justify-center mt-10">
+            <h4 className="font-semibold text-lg">
+              You don't have any transactions...
+            </h4>
+          </div>
+        ) : null}
       </div>
     </>
   );
