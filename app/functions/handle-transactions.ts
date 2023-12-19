@@ -1,5 +1,6 @@
 import { parseCookies } from "nookies";
 import axiosApi from "../service/api";
+import { revalidatePath } from "next/cache";
 
 export async function deleteTransatcion(transactionId: number) {
   const cookies = parseCookies();

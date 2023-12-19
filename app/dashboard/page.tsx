@@ -2,7 +2,7 @@
 import { decode } from "jsonwebtoken";
 import Link from "next/link";
 import { parseCookies } from "nookies";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useTransition } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { DeleteModal } from "../components/deleteTransaction";
 import { EditModal } from "../components/editTransaction";
@@ -71,8 +71,8 @@ export default function Dashboard() {
         const userTransactions: UserTransactions[] =
           await fetchUserTransactions(token);
 
-        if (userTransactions.length < 1) {
-          setTransactions([]);
+        if (Array.isArray(userTransactions)) {
+          setTransactions(userTransactions);
           setLoading(false);
         }
 
@@ -83,6 +83,8 @@ export default function Dashboard() {
 
     fetchData();
   }, []);
+
+  console.log(transactions);
 
   return (
     <>
@@ -111,7 +113,7 @@ export default function Dashboard() {
             })}
           </ul>
         ) : null}
-        {!loading && transactions.length == 0 ? (
+        {!Array.isArray(transactions) ? (
           <div className="w-full flex items-center justify-center mt-10">
             <h4 className="font-semibold text-lg">
               You don't have any transactions...

@@ -2,13 +2,14 @@ import React from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { deleteTransatcion } from "../functions/handle-transactions";
 import { useModalSates } from "../utils/modalUtils";
-import { revalidatePath } from "next/cache";
+import { useRouter } from "next/navigation";
 
 interface ModalProps {
   transactionId?: number | null;
 }
 
 export const DeleteModal: React.FC<ModalProps> = ({ transactionId }) => {
+  const router = useRouter();
   const { deleteModalState, closeDeleteModal } = useModalSates();
 
   if (!deleteModalState) {
@@ -20,7 +21,7 @@ export const DeleteModal: React.FC<ModalProps> = ({ transactionId }) => {
 
     if (result) {
       closeDeleteModal();
-      revalidatePath("/");
+      router.replace("/dashboard");
     }
   };
 

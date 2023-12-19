@@ -15,6 +15,7 @@ export async function fetchUserInfo(userId: number, userToken: string) {
 export async function fetchUserTransactions(userToken: string) {
   try {
     const response = await axiosApi.get("/transactions");
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);
