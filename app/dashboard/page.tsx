@@ -79,7 +79,6 @@ export default function Dashboard() {
         const userTransactions: UserTransactions[] =
           await fetchUserTransactions(token);
         setTransactions(userTransactions);
-        console.log(userTransactions);
       }
     };
 
@@ -90,11 +89,7 @@ export default function Dashboard() {
     <>
       <DashBoardHeader />
 
-      <Modal
-        isOpen={isModalOpen}
-        closeModal={closeModalFunction}
-        transactionId={selectedTransactionId}
-      />
+      <Modal transactionId={selectedTransactionId} />
       <EditModal />
       <div className="flex flex-col h-screen bg-gradient-to-r from-slate-700 to-slate-900 px-2 pt-3">
         <span>Welcome {userName}!</span>

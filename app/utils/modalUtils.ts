@@ -10,7 +10,7 @@ interface EditModalState {
   closeDeleteModal: () => void;
 }
 
-export const useEditModal = (): EditModalState => {
+export const useModalSates = (): EditModalState => {
   const {
     editModalState,
     closeEditModal,

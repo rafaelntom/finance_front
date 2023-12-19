@@ -1,19 +1,16 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { deleteTransatcion } from "../functions/handle-transactions";
+import { useModalSates } from "../utils/modalUtils";
 
 interface ModalProps {
-  isOpen: boolean;
-  closeModal: () => void;
   transactionId?: number | null;
 }
 
-export const Modal: React.FC<ModalProps> = ({
-  isOpen,
-  closeModal,
-  transactionId,
-}) => {
-  if (!isOpen) {
+export const Modal: React.FC<ModalProps> = ({ transactionId }) => {
+  const { deleteModalState, closeDeleteModal } = useModalSates();
+
+  if (!deleteModalState) {
     return null;
   }
 
@@ -30,7 +27,7 @@ export const Modal: React.FC<ModalProps> = ({
           <div className="modal-overlay bg-opacity-100">
             <div className="modal-header flex justify-end  py-3 px-2">
               <IoIosCloseCircleOutline
-                onClick={closeModal}
+                onClick={closeDeleteModal}
                 className="transition-all hover:scale-105 hover:cursor-pointer"
                 size={30}
               />
@@ -42,7 +39,7 @@ export const Modal: React.FC<ModalProps> = ({
             <div className="btns-container flex gap-5 justify-center px-3 py-4">
               <button
                 className="bg-slate-600 p-2 rounded-lg hover:scale-105 transition-all hover:bg-slate-800"
-                onClick={closeModal}
+                onClick={closeDeleteModal}
               >
                 Cancel
               </button>

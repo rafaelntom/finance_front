@@ -2,6 +2,7 @@ import React from "react";
 import { UserTransactions } from "../dashboard/page";
 import { FaTrashAlt } from "react-icons/fa";
 import { MdModeEditOutline } from "react-icons/md";
+import { useModalSates } from "../utils/modalUtils";
 
 export const TransactionCard = ({
   transaction,
@@ -10,6 +11,8 @@ export const TransactionCard = ({
   transaction: UserTransactions;
   openModal: () => void;
 }) => {
+  const { openEditModal } = useModalSates();
+
   return (
     <li className="flex flex-col gap-2 bg-slate-950 p-2 rounded-md">
       <span>{transaction.description}</span>
@@ -25,6 +28,7 @@ export const TransactionCard = ({
           <MdModeEditOutline
             size={20}
             className="text-slate-300 hover:cursor-pointer hover:scale-105 transition-all"
+            onClick={openEditModal}
           />
         </div>
       </div>
