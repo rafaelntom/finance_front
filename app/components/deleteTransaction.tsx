@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { deleteTransatcion } from "../functions/handle-transactions";
 import { useModalSates } from "../utils/modalUtils";
@@ -21,7 +21,7 @@ export const DeleteModal: React.FC<ModalProps> = ({ transactionId }) => {
 
     if (result) {
       closeDeleteModal();
-      router.replace("/dashboard");
+      window.location.reload();
     }
   };
 

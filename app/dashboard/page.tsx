@@ -84,8 +84,6 @@ export default function Dashboard() {
     fetchData();
   }, []);
 
-  console.log(transactions);
-
   return (
     <>
       <DashBoardHeader />
@@ -93,10 +91,10 @@ export default function Dashboard() {
       <DeleteModal transactionId={selectedTransactionId} />
       <EditModal />
       <div className="flex flex-col h-screen bg-gradient-to-r from-slate-700 to-slate-900 px-2 pt-3">
-        <span>Welcome {userName}!</span>
+        {loading ? null : <span>Welcome {userName}!</span>}
         <div className="create-transaction-container">{/* TO BE ADDED */}</div>
         {loading ? (
-          <div className="flex items-center my-3 text-lg font-semibold text-zinibrown w-full justify-center">
+          <div className="flex items-center my-3 text-lg font-semibold text-zinibrown w-full justify-center h-screen">
             <span className="text-center">Loading transactions...</span>
           </div>
         ) : null}
